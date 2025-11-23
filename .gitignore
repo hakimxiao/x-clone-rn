@@ -1,0 +1,86 @@
+// ...existing code...
+# ---------- Global / root ----------
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Build / coverage
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editors / IDEs
+.vscode/
+.idea/
+
+# Misc
+*.tgz
+*.lock-wscript
+
+# ---------- Backend (MERN) ----------
+# adjust folder name if yours is not "backend"
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/.env.*
+backend/build/
+backend/dist/
+backend/.cache/
+backend/.next/            # in case Next.js used in backend
+backend/.pnp/
+backend/.pnp.js
+
+# ---------- Mobile (React Native / Expo) ----------
+# adjust folder name if yours is not "mobile"
+mobile/node_modules/
+mobile/.env
+mobile/.env.local
+mobile/.env.*
+mobile/.expo/
+mobile/.expo-shared/
+mobile/.eas/
+mobile/.expo/*cache*
+mobile/.expo/web/
+mobile/.expo-shared/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/ios/Pods/
+mobile/ios/build/
+mobile/.gradle/
+mobile/gradle-app.setting
+mobile/gradle-wrapper.jar
+
+# React Native / Expo generated files
+*.keystore
+*.jks
+*.p12
+eas.json
+credentials.json
+
+# Metro / haste
+mobile/.metro-cache/
+mobile/.haste-map-*
+
+# ---------- Package manager lock files (optional) ----------
+# ignore lockfiles at root if you don't want them in repo; keep if you do
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+// ...existing code...
