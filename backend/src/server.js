@@ -6,6 +6,7 @@ import { ENV } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 
 import userRoutes from "./routes/user.route.js";
+import postRoutes from "./routes/post.route.js";
 
 const app = express();
 
@@ -19,6 +20,13 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+
+// error handling middleware
+app.use((err, req, res) => {
+  console.error("unhandled error", err);
+  res.status(500).json({ error: err.message || "internal server error" });
+});
 
 const startServer = async () => {
   try {
