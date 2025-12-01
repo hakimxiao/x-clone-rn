@@ -1,49 +1,30 @@
-import { aj } from "../config/arcjet.js";
+import arcjet, { tokenBucket, shield, detectBot } from "@arcjet/node";
+import { ENV } from "./env.js";
 
-export const arcjetMiddleware = async (req, res, next) => {
-  try {
-    const decision = await aj.protect(req, {
-      requested: 1,
-    });
+// initialize Arcjet with security rules
+export const aj = arcjet({
+  key: ENV.ARCJET_KEY,
+  characteristics: ["ip.src"],
+  rules: [
+    // shield protects your app from common attacks e.g. SQL injection, XSS, CSRF attacks
+    shield({ mode: "LIVE" }),
 
-    // jika request ditolak
-    if (decision.consequence === "deny") {
-      switch (decision.reason) {
-        case "rate_limit":
-          return res.status(429).json({
-            error: "Too Many Requests",
-            message: "Rate limit exceeded. Please slow down.",
-          });
+    // bot detection - block all bots except search engines
+    detectBot({
+      mode: "LIVE",
+      allow: [
+        "CATEGORY:SEARCH_ENGINE",
+        // allow legitimate search engine bots
+        // see full list at https://arcjet.com/bot-list
+      ],
+    }),
 
-        case "bot":
-          return res.status(403).json({
-            error: "Bot Blocked",
-            message: "Automated request denied.",
-          });
-
-        case "spoofed":
-          return res.status(403).json({
-            error: "Spoofed Client",
-            message: "Request appears spoofed or manipulated.",
-          });
-
-        case "attack":
-          return res.status(403).json({
-            error: "Security Threat",
-            message: "Request blocked due to security threat.",
-          });
-
-        default:
-          return res.status(403).json({
-            error: "Forbidden",
-            message: "Request denied.",
-          });
-      }
-    }
-
-    next();
-  } catch (err) {
-    console.error("Arcjet middleware error:", err);
-    next(); // tetap lanjutkan request jika Arcjet gagal
-  }
-};
+    // rate limiting with token bucket algorithm
+    tokenBucket({
+      mode: "LIVE",
+      refillRate: 10, // tokens added per interval
+      interval: 10, // interval in seconds (10 seconds)
+      capacity: 15, // maximum tokens in bucket
+    }),
+  ],
+});
