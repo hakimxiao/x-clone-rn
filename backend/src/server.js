@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(clerkMiddleware()); // Clerk Middleware
-app.use(arcjetMiddleware); // Arcjet Middleware
+// app.use(arcjetMiddleware); // Arcjet Middleware
 
 app.get("/", (req, res) => {
   res.send("Hello From Server");
