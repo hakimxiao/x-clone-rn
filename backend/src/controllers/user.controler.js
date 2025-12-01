@@ -15,7 +15,9 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 export const updateProfile = asyncHandler(async (req, res) => {
   const { userId } = getAuth(req);
 
-  const user = await User.findOne({ clerkId: userId }, req.body, { new: true });
+  const user = await User.findOneAndUpdate({ clerkId: userId }, req.body, {
+    new: true,
+  });
   if (!user) return res.status(404).json({ error: "User not found" });
 
   res.status(200).json({ user });
@@ -98,11 +100,9 @@ export const followUser = asyncHandler(async (req, res) => {
     type: "follow",
   });
 
-  res
-    .status(200)
-    .json({
-      message: isFollowing
-        ? "User unfollowed successfully"
-        : "User followed successfully",
-    });
+  res.status(200).json({
+    message: isFollowing
+      ? "User unfollowed successfully"
+      : "User followed successfully",
+  });
 });
