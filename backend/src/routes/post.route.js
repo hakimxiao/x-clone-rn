@@ -6,7 +6,7 @@ import {
   getPosts,
   getUserPosts,
   likePost,
-} from "../controllers/post.controller.js";
+} from "../controllers/post.controler.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
 import upload from "../middleware/upload.middleware.js";
 
