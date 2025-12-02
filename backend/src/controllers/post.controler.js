@@ -1,7 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
+import { getAuth } from "@clerk/express";
 import cloudinary from "../config/cloudinary.js";
+
+import Notification from "../models/notification.model.js";
+import Comment from "../models/comment.model.js";
 
 export const getPosts = asyncHandler(async (req, res) => {
   const posts = await Post.find()
@@ -40,7 +44,6 @@ export const getUserPosts = asyncHandler(async (req, res) => {
   const { username } = req.params;
 
   const user = await User.findOne({ username });
-
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const posts = await Post.find({ user: user._id })
