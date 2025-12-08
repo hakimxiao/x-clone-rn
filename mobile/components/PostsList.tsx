@@ -6,7 +6,7 @@ import PostCard from "./PostCard";
 import { useState } from "react";
 import CommentsModal from "./CommentsModal";
 
-const PostsList = () => {
+const PostsList = ({ username }: { username?: string }) => {
   const { currentUser } = useCurrentUser();
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const {
@@ -17,7 +17,7 @@ const PostsList = () => {
     toggleLike,
     deletePost,
     checkIsLiked,
-  } = usePosts();
+  } = usePosts(username);
   const selectedPost = selectedPostId
     ? posts.find((p: Post) => p._id === selectedPostId)
     : null;
